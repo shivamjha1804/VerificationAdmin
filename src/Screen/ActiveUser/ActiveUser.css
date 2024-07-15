@@ -1,0 +1,36 @@
+.active-user-table-list-format {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 0.5fr;
+  align-items: center;
+  justify-items: center; /* Center content horizontally */
+  gap: 10px;
+  padding: 12px 15px;
+  border: 1px solid #cacaca;
+  font-size: 13px;
+  text-align: center; /* Center text */
+}
+
+.active-user-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.active-user-table-list-format .title {
+  background-color: #f9f9f9;
+}
+
+.active-user-table-list-format img {
+  width: 50px;
+  margin-left: 25px;
+}
+
+@media (max-width: 600px) {
+  .active-user-table-list-format {
+    grid-template-columns: 1fr 3fr 1fr;
+    gap: 15px;
+  }
+
+  .active-user-table-list-format {
+    display: none;
+  }
+}

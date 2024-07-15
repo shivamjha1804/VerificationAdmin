@@ -1,0 +1,17 @@
+.home-app-container {
+  display: flex;
+  width: 100%; /* Full width of the viewport */
+}
+
+.home-sidebar {
+  width: 17%; /* Sidebar takes up 25% of the viewport width */
+  min-width: 250px; /* Optional: Set a minimum width for the sidebar */
+  background-color: #f0f0f0; /* Optional: Example background color for the sidebar */
+}
+
+.home-main-content {
+  width: 75%; /* Main content takes up 75% of the viewport width */
+  padding: 20px;
+  margin: auto;
+  margin-top: 100px;
+}

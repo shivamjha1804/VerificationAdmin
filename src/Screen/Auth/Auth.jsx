@@ -1,26 +1,62 @@
 import React, { useState } from "react";
+import "./Auth.css";
+import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
-  const [signIn] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!email || !password) {
+      setError("Please fill in all fields.*");
+      return;
+    }
+
+    console.log("Email:", email);
+    console.log("Password:", password);
+    setError("");
+    navigate("/home");
+  };
+
   return (
-    <div>
-      <section signIn={signIn}>
-        <form>
-          <title>Create Account</title>
-          <input type="text" placeholder="Name" />
-          <input type="email" placeholder="Email" />
-          <input type="password" placeholder="Password" />
-          <button type="submit">Sign up</button>
-        </form>
-      </section>
-      <section signIn={signIn}>
-        <form>
-          <title>Sign In</title>
-          <input type="email" placeholder="Email" />
-          <input type="password" placeholder="Password" />
-          <a href="#">Forgot your password?</a>
-          <button type="submit">Sign in</button>
-        </form>
+    <div className="authScreen">
+      <section className="authSection">
+        <div className="authContainer">
+          <h3>Login</h3>
+          <form className="authForm" onSubmit={handleSubmit}>
+            {error && <p className="error">{error}</p>}
+            <div className="auth-form-group">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="auth-form-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <a href="#">Forgot Password?</a>
+            <div className="auth-form-group">
+              <button type="submit" className="btn btn-primary">
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
       </section>
     </div>
   );
