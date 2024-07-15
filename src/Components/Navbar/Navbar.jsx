@@ -4,11 +4,12 @@ import logo from "../../assets/Navbar/logo.png";
 import user from "../../assets/Navbar/user.png";
 import { useNavigate } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ setIsAuthenticated }) => {
   const navigate = useNavigate();
 
   const logout = () => {
-    navigate("/auth");
+    setIsAuthenticated(false);
+    navigate("/");
   };
 
   return (

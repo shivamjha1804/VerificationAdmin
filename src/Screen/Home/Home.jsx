@@ -8,10 +8,10 @@ import { Route, Routes } from "react-router-dom";
 import AddUser from "../AddUser/AddUser";
 import DeleteUser from "../DeleteUser/DeleteUser";
 
-const Home = () => {
+const Home = ({ setIsAuthenticated }) => {
   return (
     <>
-      <Navbar />
+      <Navbar setIsAuthenticated={setIsAuthenticated}/>
       <div className="home-app-container">
         <div className="home-sidebar">
           <Sidebar />

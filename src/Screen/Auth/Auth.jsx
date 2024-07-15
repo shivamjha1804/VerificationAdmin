@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Auth.css";
 import { useNavigate } from "react-router-dom";
 
-const Auth = () => {
+const Auth = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -19,7 +19,7 @@ const Auth = () => {
     console.log("Email:", email);
     console.log("Password:", password);
     setError("");
-    navigate("/home");
+    setIsAuthenticated(true);
   };
 
   return (

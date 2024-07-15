@@ -14,7 +14,7 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       <div className="sidebar-options">
-        <NavLink to="/alluser" className="sidebar-option">
+        <NavLink to="/home/alluser" className="sidebar-option">
           {({ isActive }) => (
             <>
               <img
@@ -26,7 +26,7 @@ const Sidebar = () => {
             </>
           )}
         </NavLink>
-        <NavLink to="/activeuser" className="sidebar-option">
+        <NavLink to="/home/activeuser" className="sidebar-option">
           {({ isActive }) => (
             <>
               <img
@@ -38,7 +38,7 @@ const Sidebar = () => {
             </>
           )}
         </NavLink>
-        <NavLink to="/adduser" className="sidebar-option">
+        <NavLink to="/home/adduser" className="sidebar-option">
           {({ isActive }) => (
             <>
               <img
@@ -50,7 +50,7 @@ const Sidebar = () => {
             </>
           )}
         </NavLink>
-        <NavLink to="/deleteuser" className="sidebar-option">
+        <NavLink to="/home/deleteuser" className="sidebar-option">
           {({ isActive }) => (
             <>
               <img
