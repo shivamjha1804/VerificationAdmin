@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./AddUser.css";
+import { toast } from "react-toastify";
 
 const AddUser = () => {
   const [formData, setFormData] = useState({
@@ -60,6 +61,7 @@ const AddUser = () => {
         image: null,
       });
       setSelectedImage(null);
+      toast.success("User add successfully");
     }
   };
 

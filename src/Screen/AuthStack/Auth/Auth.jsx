@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Auth.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Auth = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState("");
@@ -20,6 +21,7 @@ const Auth = ({ setIsAuthenticated }) => {
     console.log("Password:", password);
     setError("");
     setIsAuthenticated(true);
+    toast.success("Admin logged In");
   };
 
   return (
@@ -49,7 +51,7 @@ const Auth = ({ setIsAuthenticated }) => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <a href="#">Forgot Password?</a>
+            <Link to="/forgetpassword">Forgot Password?</Link>
             <div className="auth-form-group">
               <button type="submit" className="btn btn-primary">
                 Submit

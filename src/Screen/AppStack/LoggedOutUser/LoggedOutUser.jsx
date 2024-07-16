@@ -1,7 +1,7 @@
 import React from "react";
-import "./ActiveUser.css";
+import "./LoggedOutUser.css";
 
-const ActiveUser = () => {
+const LoggedOutUser = () => {
   const data = [
     {
       firstName: "John",
@@ -70,7 +70,7 @@ const ActiveUser = () => {
     {
       firstName: "Robert",
       lastName: "Martinez",
-      image: "https://example.com/robertmartinez.jpg",
+      image: "https://example.cActiveUserom/robertmartinez.jpg",
       email: "robert.martinez@example.com",
       location: "America",
       time: "30min",
@@ -86,10 +86,10 @@ const ActiveUser = () => {
   ];
 
   return (
-    <div className="active-user-list">
-      <p className="active-user-title">Active User</p>
-      <div className="active-user-table-list">
-        <div className="active-user-table-list-format">
+    <div className="logged-out-user-list">
+      <p className="logged-out-user-title">Logged Out Users</p>
+      <div className="logged-out-user-table-list">
+        <div className="logged-out-user-table-list-format">
           <b>SI/No.</b>
           <b>First name</b>
           <b>Last name</b>
@@ -100,7 +100,7 @@ const ActiveUser = () => {
         </div>
         {data.map((item, index) => {
           return (
-            <div className="active-user-table-list-format" key={index}>
+            <div className="logged-out-user-table-list-format" key={index}>
               <p>{index + 1}</p>
               <p>{item.firstName}</p>
               <p>{item.lastName}</p>
@@ -116,4 +116,4 @@ const ActiveUser = () => {
   );
 };
 
-export default ActiveUser;
+export default LoggedOutUser;

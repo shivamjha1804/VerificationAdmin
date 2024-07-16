@@ -1,23 +1,13 @@
 import React, { useState } from "react";
 import "./DeleteUser.css";
+import DeletePopup from "../../../Components/AppStackComponent/DeletePopup/DeletePopup";
 
 const DeleteUser = () => {
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState({});
-
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setSelectedImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   const validate = () => {
     let errors = {};
@@ -35,12 +25,19 @@ const DeleteUser = () => {
     return errors;
   };
 
+  const clear = () => {
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setErrors({});
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length === 0) {
       // Submit form (e.g., call an API)
-      console.log("Form submitted successfully");
+      setShowDeletePopup(true);
     } else {
       setErrors(validationErrors);
     }
@@ -48,6 +45,11 @@ const DeleteUser = () => {
 
   return (
     <div className="delete-user-container">
+      {showDeletePopup ? (
+        <DeletePopup setShowDeletePopup={setShowDeletePopup} clear={clear} />
+      ) : (
+        <></>
+      )}
       <p>Delete User</p>
       <form className="delete-user-form" onSubmit={handleSubmit}>
         <div>
