@@ -1,0 +1,161 @@
+.search-screen-container {
+  margin: 0px auto;
+  /* padding: 20px; */
+}
+
+.search-user-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.date-time-input-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  align-self: center;
+}
+
+.date-time-input-button:hover {
+  background-color: #0056b3;
+}
+
+.search-screen-container-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.search-screen-container-body-type {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  padding: 10px;
+}
+
+.search-screen-container-body-type label {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #333;
+}
+
+.search-screen-container-body-type input {
+  margin-right: 10px;
+}
+
+.search-bar {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-bar input[type="text"] {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 80%;
+}
+
+.search-bar button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.search-bar button:hover {
+  background-color: #0056b3;
+}
+
+.date-time-inputs {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.date-time-input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 45%;
+}
+
+.date-time-input label {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.date-time-input input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.date-error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.search-user-table-list {
+  margin-top: 50px;
+}
+
+.search-user-table-list-format {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 0.5fr 0.5fr;
+  align-items: center;
+  justify-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  border: 1px solid #cacaca;
+  font-size: 13px;
+  text-align: center;
+}
+
+.search-user-table-list-format .title {
+  background-color: #f9f9f9;
+}
+
+.search-user-list-user-image {
+  width: 50px;
+}
+
+.search-user-list-user-view {
+  height: 25px;
+  width: 20px;
+  cursor: pointer;
+}
+
+.no-data-found {
+  text-align: center;
+  padding: 20px;
+  font-size: 18px;
+  color: #888;
+}
+@media (max-width: 600px) {
+  .search-user-table-list-format {
+    grid-template-columns: 1fr 3fr 1fr;
+    gap: 15px;
+  }
+
+  .search-user-table-list-format .title {
+    display: none;
+  }
+}
