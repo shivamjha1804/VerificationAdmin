@@ -7,6 +7,8 @@ const AddUser = () => {
     firstName: "",
     lastName: "",
     email: "",
+    password: "",
+    confirmPassword: "",
     image: null,
   });
   const [errors, setErrors] = useState({});
@@ -40,6 +42,11 @@ const AddUser = () => {
     if (!formData.firstName) newErrors.firstName = "First name is required";
     if (!formData.lastName) newErrors.lastName = "Last name is required";
     if (!formData.email) newErrors.email = "Email is required";
+    if (!formData.password) newErrors.password = "Password is required";
+    if (!formData.confirmPassword)
+      newErrors.confirmPassword = "Confirm Password is required";
+    if (formData.password !== formData.confirmPassword)
+      newErrors.confirmPassword = "Passwords do not match";
     if (!formData.image) newErrors.image = "Image is required";
     return newErrors;
   };
@@ -51,17 +58,20 @@ const AddUser = () => {
       setErrors(validationErrors);
     } else {
       setErrors({});
-      const submitData = formData;
+      const submitData = { ...formData };
+      delete submitData.confirmPassword;
       console.log(submitData);
       // Reset form
       setFormData({
         firstName: "",
         lastName: "",
         email: "",
+        password: "",
+        confirmPassword: "",
         image: null,
       });
       setSelectedImage(null);
-      toast.success("User add successfully");
+      toast.success("User added successfully");
     }
   };
 
@@ -103,6 +113,30 @@ const AddUser = () => {
           />
           {errors.email && (
             <span className="add-user-error">{errors.email}</span>
+          )}
+        </div>
+        <div>
+          <label>Password</label>
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+          {errors.password && (
+            <span className="add-user-error">{errors.password}</span>
+          )}
+        </div>
+        <div>
+          <label>Confirm Password</label>
+          <input
+            type="password"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+          />
+          {errors.confirmPassword && (
+            <span className="add-user-error">{errors.confirmPassword}</span>
           )}
         </div>
         <div>
