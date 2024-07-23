@@ -1,8 +1,7 @@
 .add-user-container {
-  /* padding: 20px; */
   max-width: 600px;
   margin: 0 auto;
-  /* background-color: #f9f9f9; */
+  border-radius: 8px;
 }
 
 .add-user-container p {
@@ -52,27 +51,22 @@
 
 .add-user-selected-image {
   display: flex;
-  flex-direction: column;
-  /* align-items: center; */
-  gap: 10px;
-  /* margin-top: 5px; */
-}
-
-.add-user-selected-image div {
-  max-width: 100%;
+  align-items: center;
+  gap: 15px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  align-items: center;
 }
 
-.add-user-selected-image-div img {
-  height: 30%;
-  width: 30%;
-  padding: 20px;
+.add-user-selected-image-button-div {
+  flex-direction: row;
+}
+
+.add-user-selected-image-img {
+  max-width: 100px;
+  max-height: 100px;
 }
 
 .add-user-error {
   color: red;
   font-size: 12px;
-  /* margin-top: 5px; */
 }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./SearchUser.css";
 import userView from "../../../assets/Icons/eye.png";
-import ShowUserProfilePopup from "../../../Components/ShowUserProfilePopup/ShowUserProfilePopup";
+import ShowUserProfilePopup from "../../../Components/AppStackComponent/ShowUserProfilePopup/ShowUserProfilePopup";
 
 const SearchUser = () => {
   const [searchType, setSearchType] = useState("search");
@@ -94,13 +94,11 @@ const SearchUser = () => {
     },
   ]);
 
-  // Function to handle search input change
   const handleSearchChange = (e) => {
     setSearchText(e.target.value);
     filterData(e.target.value, startingDate, endingDate);
   };
 
-  // Function to handle date filter button click
   const handleFilter = () => {
     setDateError("");
 
@@ -117,7 +115,6 @@ const SearchUser = () => {
     filterData(searchText, startingDate, endingDate);
   };
 
-  // Function to filter data based on search text and date range
   const filterData = (searchText, startDate, endDate) => {
     const filtered = data.filter((item) => {
       const itemDate = new Date(item.time);
@@ -225,7 +222,7 @@ const SearchUser = () => {
               <b>Image</b>
               <b>Email</b>
               <b>Location</b>
-              <b>Time</b>
+              <b>Data & Time</b>
               <b>View</b>
             </div>
             {filteredData.map((item, index) => (
@@ -233,11 +230,7 @@ const SearchUser = () => {
                 <p>{index + 1}</p>
                 <p>{item.firstName}</p>
                 <p>{item.lastName}</p>
-                <img
-                  className="search-user-list-user-image"
-                  src={item.image}
-                  alt={`${item.firstName} ${item.lastName}`}
-                />
+                <img className="search-user-list-user-image" src={item.image} />
                 <p>{item.email}</p>
                 <p>{item.location}</p>
                 <p>{item.time.toLocaleString()}</p>

@@ -10,6 +10,7 @@ import DeleteUser from "../DeleteUser/DeleteUser";
 import ChangePassword from "../../../Components/AppStackComponent/ChangePassword/ChangePassword";
 import LoggedOutUser from "../LoggedOutUser/LoggedOutUser";
 import SearchUser from "../SearchUser/SearchUser";
+import AllActiveUser from "../AllActiveUser/AllActiveUser";
 
 const Home = ({ setIsAuthenticated }) => {
   return (
@@ -28,6 +29,7 @@ const Home = ({ setIsAuthenticated }) => {
             <Route path="searchuser" element={<SearchUser />} />
             <Route path="adduser" element={<AddUser />} />
             <Route path="deleteuser" element={<DeleteUser />} />
+            <Route path="currentusers" element={<AllActiveUser />} />
           </Routes>
         </div>
       </div>

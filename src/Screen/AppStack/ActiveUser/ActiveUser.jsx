@@ -1,89 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./ActiveUser.css";
+import axios from "axios";
+import { adminBaseUrl } from "../../../Utils/Apis";
 
 const ActiveUser = () => {
-  const data = [
-    {
-      firstName: "John",
-      lastName: "Doe",
-      image: "https://example.com/johndoe.jpg",
-      email: "john.doe@example.com",
-      location: "America",
-      time: "30min",
-    },
-    {
-      firstName: "Jane",
-      lastName: "Smith",
-      image: "https://example.com/janesmith.jpg",
-      email: "jane.smith@example.com",
-      location: "America",
-      time: "30min",
-    },
-    {
-      firstName: "Michael",
-      lastName: "Johnson",
-      image: "https://example.com/michaeljohnson.jpg",
-      email: "michael.johnson@example.com",
-      location: "America",
-      time: "30min",
-    },
-    {
-      firstName: "Emily",
-      lastName: "Williams",
-      image: "https://example.com/emilywilliams.jpg",
-      email: "emily.williams@example.com",
-      location: "America",
-      time: "30min",
-    },
-    {
-      firstName: "David",
-      lastName: "Brown",
-      image: "https://example.com/davidbrown.jpg",
-      email: "david.brown@example.com",
-      location: "America",
-      time: "30min",
-    },
-    {
-      firstName: "Sarah",
-      lastName: "Miller",
-      image: "https://example.com/sarahmiller.jpg",
-      email: "sarah.miller@example.com",
-      location: "America",
-      time: "30min",
-    },
-    {
-      firstName: "James",
-      lastName: "Davis",
-      image: "https://example.com/jamesdavis.jpg",
-      email: "james.davis@example.com",
-      location: "America",
-      time: "30min",
-    },
-    {
-      firstName: "Anna",
-      lastName: "Wilson",
-      image: "https://example.com/annawilson.jpg",
-      email: "anna.wilson@example.com",
-      location: "America",
-      time: "30min",
-    },
-    {
-      firstName: "Robert",
-      lastName: "Martinez",
-      image: "https://example.com/robertmartinez.jpg",
-      email: "robert.martinez@example.com",
-      location: "America",
-      time: "30min",
-    },
-    {
-      firstName: "Olivia",
-      lastName: "Garcia",
-      image: "https://example.com/oliviagarcia.jpg",
-      email: "olivia.garcia@example.com",
-      location: "America",
-      time: "30min",
-    },
-  ];
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const getToken = () => {
+      const token = localStorage.getItem("token");
+      return token;
+    };
+
+    const fetchUsers = async () => {
+      const token = getToken();
+
+      if (token) {
+        const headers = {
+          Authorization: token,
+          userType: "Admin",
+        };
+
+        try {
+          const response = await axios.get(`${adminBaseUrl}/loggedinusers`, {
+            headers,
+          });
+          if (response.data.status) {
+            setUsers(response.data.data);
+          } else {
+            console.log("Error: ", response.data.error);
+          }
+        } catch (err) {
+          console.log("Error fetching all users", err);
+        }
+      } else {
+        console.log("No token found in local storage");
+      }
+    };
+
+    fetchUsers();
+  }, []);
 
   return (
     <div className="active-user-list">
@@ -98,7 +54,7 @@ const ActiveUser = () => {
           <b>Location</b>
           <b>Time</b>
         </div>
-        {data.map((item, index) => {
+        {users.map((item, index) => {
           return (
             <div className="active-user-table-list-format" key={index}>
               <p>{index + 1}</p>

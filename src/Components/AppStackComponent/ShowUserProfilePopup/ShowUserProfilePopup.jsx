@@ -1,7 +1,7 @@
 import React from "react";
 import "./ShowUserProfilePopup.css";
-import demoImage from "../../assets/demo/demo.jpeg";
-import back from "../../assets/Icons/back.png";
+import demoImage from "../../../assets/demo/demo.jpeg";
+import back from "../../../assets/Icons/back.png";
 
 const ShowUserProfilePopup = ({ setShowUserProfile }) => {
   return (
@@ -56,6 +56,10 @@ const ShowUserProfilePopup = ({ setShowUserProfile }) => {
                     <h4>Time:</h4>
                     <h5>12:00</h5>
                   </div>
+                  <div className="log-item-time">
+                    <h4>Location:</h4>
+                    <h5>America</h5>
+                  </div>
                   <div className="log-item-status">
                     <h4>Status:</h4>
                     <h5>Logged In</h5>
@@ -71,6 +75,10 @@ const ShowUserProfilePopup = ({ setShowUserProfile }) => {
                   <div className="log-item-time">
                     <h4>Time:</h4>
                     <h5>2:00</h5>
+                  </div>
+                  <div className="log-item-time">
+                    <h4>Location:</h4>
+                    <h5>America</h5>
                   </div>
                   <div className="log-item-status">
                     <h4>Status:</h4>

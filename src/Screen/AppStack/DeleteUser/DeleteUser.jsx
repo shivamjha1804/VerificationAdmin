@@ -50,7 +50,7 @@ const DeleteUser = () => {
       ) : (
         <></>
       )}
-      <p>Delete User</p>
+      <p>Deleted User</p>
       <form className="delete-user-form" onSubmit={handleSubmit}>
         <div>
           <label>First name</label>

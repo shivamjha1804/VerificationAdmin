@@ -1,27 +1,50 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./Auth.css";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import axios from "axios";
+import { adminBaseUrl } from "../../../Utils/Apis";
+import { StoreContext } from "../../../Context/StoreContex";
 
 const Auth = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { setToken } = useContext(StoreContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!email || !password) {
-      setError("Please fill in all fields.*");
+      setError("Please fill in all fields.");
       return;
     }
 
-    console.log("Email:", email);
-    console.log("Password:", password);
-    setError("");
-    setIsAuthenticated(true);
-    toast.success("Admin logged In");
+    const data = {
+      email: email,
+      password: password,
+    };
+
+    axios
+      .post(`${adminBaseUrl}/adminlogin`, data)
+      .then((res) => {
+        if (res.data.status === true) {
+          console.log("Response : ", res.data.data.token);
+          localStorage.setItem("token", res.data.data.token);
+          setToken(res.data.token);
+          setIsAuthenticated(true);
+          toast.success("Admin logged In");
+          setError("");
+          navigate("/home/alluser");
+        } else {
+          setError("Invalid credentials.");
+        }
+      })
+      .catch((err) => {
+        setError("An error occurred. Please try again.");
+        console.log("error : ", err);
+      });
   };
 
   return (

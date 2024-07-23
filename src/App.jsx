@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Route,
   Routes,
@@ -10,16 +10,26 @@ import Home from "./Screen/AppStack/Home/Home";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ForgetPassword from "./Screen/AuthStack/ForgotPassword/ForgetPassword";
+import { StoreContext } from "./Context/StoreContex";
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isAuthenticated, setIsAuthenticated, setToken } =
+    useContext(StoreContext);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setToken(token);
+      setIsAuthenticated(true);
+    }
+  }, [setToken, setIsAuthenticated]);
 
   return (
     <>
       <ToastContainer />
       <Routes>
         <Route
-          path="/*"
+          path="/"
           element={
             !isAuthenticated ? (
               <Auth setIsAuthenticated={setIsAuthenticated} />
@@ -38,7 +48,6 @@ const App = () => {
             )
           }
         />
-
         <Route path="/forgetpassword" element={<ForgetPassword />} />
       </Routes>
     </>

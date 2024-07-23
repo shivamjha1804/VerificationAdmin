@@ -1,0 +1,39 @@
+.current-user-table-list-format {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 0.5fr;
+  align-items: center;
+  justify-items: center; /* Center content horizontally */
+  gap: 10px;
+  padding: 12px 15px;
+  border: 1px solid #cacaca;
+  font-size: 13px;
+  text-align: center; /* Center text */
+}
+
+.current-user-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.current-user-table-list-format.title {
+  background-color: #f9f9f9;
+  font-weight: bold;
+}
+
+.delete-user-icon {
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .current-user-table-list-format {
+    grid-template-columns: 1fr 3fr 1fr;
+    gap: 15px;
+  }
+
+  .current-user-table-list-format .title {
+    display: none;
+  }
+}

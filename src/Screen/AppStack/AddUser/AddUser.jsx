@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./AddUser.css";
 import { toast } from "react-toastify";
+import axios from "axios";
+import { adminBaseUrl } from "../../../Utils/Apis";
 
 const AddUser = () => {
   const [formData, setFormData] = useState({
@@ -14,20 +16,56 @@ const AddUser = () => {
   const [errors, setErrors] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const handleImageChange = (event) => {
+  const handleImageChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
+      // Display the selected image before upload
       const reader = new FileReader();
       reader.onloadend = () => {
         setSelectedImage(reader.result);
-        setFormData((prevData) => ({
-          ...prevData,
-          image: reader.result,
-        }));
       };
       reader.readAsDataURL(file);
+
+      // Prepare the file for upload
+      const formData = new FormData();
+      formData.append("image", file);
+
+      try {
+        // Upload the file to the server
+        const response = await axios.post(
+          `${adminBaseUrl}/upload-face-image`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        if (response.status) {
+          toast.success("Image uploaded successfully");
+          if (response.data.faceId) {
+            const { imageUrl } = response.data;
+            setFormData((prevData) => ({
+              ...prevData,
+              faceId: response.data.faceId,
+            }));
+            const uploadImage = await axios.post(`${adminBaseUrl}/upload-profile-image`)
+            
+          }
+        }
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        toast.error("Error uploading image");
+      }
     }
   };
+
+  // const { imageUrl } = response.data;
+  //         setFormData((prevData) => ({
+  //           ...prevData,
+  //           path: response.data.path,
+  //         }));
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -148,10 +186,12 @@ const AddUser = () => {
         </div>
         {selectedImage && (
           <div className="add-user-selected-image">
-            <h3>Selected Image:</h3>
-            <div className="add-user-selected-image-div">
-              <img src={selectedImage} alt="Selected" />
-            </div>
+            <label>Selected image</label>
+            <img
+              src={selectedImage}
+              alt="Selected"
+              className="add-user-selected-image-img"
+            />
           </div>
         )}
         <button type="submit">Submit</button>

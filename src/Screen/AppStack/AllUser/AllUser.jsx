@@ -1,70 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./AllUser.css";
+import axios from "axios";
+import { adminBaseUrl } from "../../../Utils/Apis";
 
 const AllUser = () => {
-  const data = [
-    {
-      firstName: "John",
-      lastName: "Doe",
-      image: "https://example.com/johndoe.jpg",
-      email: "john.doe@example.com",
-    },
-    {
-      firstName: "Jane",
-      lastName: "Smith",
-      image: "https://example.com/janesmith.jpg",
-      email: "jane.smith@example.com",
-    },
-    {
-      firstName: "Michael",
-      lastName: "Johnson",
-      image: "https://example.com/michaeljohnson.jpg",
-      email: "michael.johnson@example.com",
-    },
-    {
-      firstName: "Emily",
-      lastName: "Williams",
-      image: "https://example.com/emilywilliams.jpg",
-      email: "emily.williams@example.com",
-    },
-    {
-      firstName: "David",
-      lastName: "Brown",
-      image: "https://example.com/davidbrown.jpg",
-      email: "david.brown@example.com",
-    },
-    {
-      firstName: "Sarah",
-      lastName: "Miller",
-      image: "https://example.com/sarahmiller.jpg",
-      email: "sarah.miller@example.com",
-    },
-    {
-      firstName: "James",
-      lastName: "Davis",
-      image: "https://example.com/jamesdavis.jpg",
-      email: "james.davis@example.com",
-    },
-    {
-      firstName: "Anna",
-      lastName: "Wilson",
-      image: "https://example.com/annawilson.jpg",
-      email: "anna.wilson@example.com",
-    },
-    {
-      firstName: "Robert",
-      lastName: "Martinez",
-      image: "https://example.com/robertmartinez.jpg",
-      email: "robert.martinez@example.com",
-    },
-    {
-      firstName: "Olivia",
-      lastName: "Garcia",
-      image: "https://example.com/oliviagarcia.jpg",
-      email: "olivia.garcia@example.com",
-    },
-  ];
+  const [users, setUsers] = useState([]);
 
+  useEffect(() => {
+    const getToken = () => {
+      const token = localStorage.getItem("token");
+      return token;
+    };
+
+    const fetchUsers = async () => {
+      const token = getToken();
+
+      if (token) {
+        const headers = {
+          Authorization: token,
+          userType: "Admin",
+        };
+
+        try {
+          const response = await axios.get(`${adminBaseUrl}/allusers`, {
+            headers,
+          });
+          if (response.data.status) {
+            setUsers(response.data.data);
+          } else {
+            console.log("Error: ", response.data.error);
+          }
+        } catch (err) {
+          console.log("Error fetching all users", err);
+        }
+      } else {
+        console.log("No token found in local storage");
+      }
+    };
+
+    fetchUsers();
+  }, []);
 
   return (
     <div className="all-user-list">
@@ -75,16 +50,16 @@ const AllUser = () => {
           <b>First name</b>
           <b>Last name</b>
           <b>Image</b>
-          <b>Email</b>  
+          <b>Email</b>
         </div>
-        {data.map((item, index) => {
+        {users.map((user, index) => {
           return (
-            <div className="all-user-table-list-format" key={index}>
+            <div className="all-user-table-list-format" key={user._id}>
               <p>{index + 1}</p>
-              <p>{item.firstName}</p>
-              <p>{item.lastName}</p>
-              <img src={item.image} />
-              <p>{item.email}</p>
+              <p>{user.firstName}</p>
+              <p>{user.lastName || ""}</p>
+              <img src={user.image} />
+              <p>{user.email}</p>
             </div>
           );
         })}

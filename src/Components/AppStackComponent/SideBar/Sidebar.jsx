@@ -10,9 +10,11 @@ import addUser from "../../../assets/Sidebar/addUser.png";
 import deleteUserActive from "../../../assets/Sidebar/deleteUserActive.png";
 import deleteUser from "../../../assets/Sidebar/deleteUser.png";
 import loggedoutUser from "../../../assets/Sidebar/logoutUser.png";
-import loggedoutUserActive from "../../../assets/Sidebar/logoutUserActive.png"
+import loggedoutUserActive from "../../../assets/Sidebar/logoutUserActive.png";
 import searchUser from "../../../assets/Sidebar/searchUser.png";
 import searchUserActive from "../../../assets/Sidebar/searchUserActive.png";
+import activeAllUsersActive from "../../../assets/Sidebar/checkActive.png";
+import activeAllUsers from "../../../assets/Sidebar/check.png";
 
 const Sidebar = () => {
   return (
@@ -27,6 +29,18 @@ const Sidebar = () => {
                 alt="All User Icon"
               />
               <p>All Users</p>
+            </>
+          )}
+        </NavLink>
+        <NavLink to="/home/currentusers" className="sidebar-option">
+          {({ isActive }) => (
+            <>
+              <img
+                className="sidebar-icon"
+                src={isActive ? activeAllUsersActive : activeAllUsers}
+                alt="All User Icon"
+              />
+              <p>Active Users</p>
             </>
           )}
         </NavLink>
@@ -86,7 +100,7 @@ const Sidebar = () => {
                 src={isActive ? deleteUserActive : deleteUser}
                 alt="Delete User Icon"
               />
-              <p>Delete User</p>
+              <p>Deleted User</p>
             </>
           )}
         </NavLink>
