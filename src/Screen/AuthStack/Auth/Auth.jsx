@@ -30,9 +30,9 @@ const Auth = ({ setIsAuthenticated }) => {
       .post(`${adminBaseUrl}/adminlogin`, data)
       .then((res) => {
         if (res.data.status === true) {
-          console.log("Response : ", res.data.data.token);
-          localStorage.setItem("token", res.data.data.token);
-          setToken(res.data.token);
+          const token = res.data.data.token;
+          localStorage.setItem("token", token);
+          setToken(token);
           setIsAuthenticated(true);
           toast.success("Admin logged In");
           setError("");
@@ -43,7 +43,7 @@ const Auth = ({ setIsAuthenticated }) => {
       })
       .catch((err) => {
         setError("An error occurred. Please try again.");
-        console.log("error : ", err);
+        console.log("error : ", err.message);
       });
   };
 

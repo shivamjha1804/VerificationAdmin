@@ -1,77 +1,37 @@
-.delete-user-container {
-  /* padding: 20px; */
-  max-width: 600px;
-  margin: 0 auto;
-  /* background-color: #f9f9f9; */
+.delete-user-table-list-format {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  border: 1px solid #cacaca;
+  font-size: 13px;
+  text-align: center;
 }
 
-.delete-user-container p {
+.delete-user-title {
   font-size: 24px;
   margin-bottom: 20px;
   text-align: center;
 }
 
-.delete-user-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+.delete-user-table-list-format .title {
+  background-color: #f9f9f9;
 }
 
-.delete-user-form div {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+.delete-user-table-list-format img {
+  width: 35px;
+  height: 35px;
 }
 
-.delete-user-form label {
-  font-size: 16px;
-  font-weight: bold;
-}
+@media (max-width: 600px) {
+  .delete-user-table-list-format {
+    grid-template-columns: 1fr 3fr 1fr;
+    gap: 15px;
+  }
 
-.delete-user-form input {
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.delete-user-form button {
-  padding: 10px 20px;
-  font-size: 16px;
-  color: #fff;
-  background-color: #007bff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  align-self: center;
-}
-
-.delete-user-form button:hover {
-  background-color: #0056b3;
-}
-
-.delete-user-selected-image {
-  display: flex;
-  flex-direction: column;
-  /* align-items: center; */
-  gap: 10px;
-  /* margin-top: 5px; */
-}
-
-.delete-user-selected-image div {
-  max-width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  align-items: center;
-}
-
-.delete-user-selected-image-div img {
-  height: 30%;
-  width: 30%;
-  padding: 20px;
-}
-
-.delete-error {
-  color: red;
-  font-size: 14px;
+  .delete-user-table-list-format {
+    display: none;
+  }
 }

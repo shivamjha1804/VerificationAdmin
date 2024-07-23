@@ -17,11 +17,15 @@
 }
 
 .current-user-table-list-format.title {
-  background-color: #f9f9f9;
   font-weight: bold;
 }
 
-.delete-user-icon {
+.current-user-table-list-format img {
+  width: 35px;
+  height: 35px;
+}
+
+#delete-user-icon {
   height: 20px;
   width: 20px;
   cursor: pointer;

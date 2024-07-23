@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./LogoutPopup.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { StoreContext } from "../../../Context/StoreContex";
 const LogoutPopup = ({ setShowLogout, setIsAuthenticated }) => {
+  const { setToken } = useContext(StoreContext);
   const navigate = useNavigate();
   const logout = () => {
     setIsAuthenticated(false);
+    setToken("");
+    localStorage.removeItem("token");
     setShowLogout(false);
     navigate("/");
     toast.success("Admin logout.");

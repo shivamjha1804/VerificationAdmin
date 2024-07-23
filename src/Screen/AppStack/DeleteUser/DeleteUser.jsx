@@ -1,84 +1,79 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./DeleteUser.css";
 import DeletePopup from "../../../Components/AppStackComponent/DeletePopup/DeletePopup";
+import { adminBaseUrl } from "../../../Utils/Apis";
+import axios from "axios";
 
 const DeleteUser = () => {
-  const [showDeletePopup, setShowDeletePopup] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [errors, setErrors] = useState({});
+  const [users, setUsers] = useState([]);
 
-  const validate = () => {
-    let errors = {};
-    if (!firstName) {
-      errors.firstName = "First name is required";
-    }
-    if (!lastName) {
-      errors.lastName = "Last name is required";
-    }
-    if (!email) {
-      errors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      errors.email = "Email address is invalid";
-    }
-    return errors;
-  };
+  useEffect(() => {
+    const getToken = () => {
+      const token = localStorage.getItem("token");
+      return token;
+    };
 
-  const clear = () => {
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setErrors({});
-  };
+    const fetchUsers = async () => {
+      const token = getToken();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const validationErrors = validate();
-    if (Object.keys(validationErrors).length === 0) {
-      // Submit form (e.g., call an API)
-      setShowDeletePopup(true);
-    } else {
-      setErrors(validationErrors);
-    }
-  };
+      if (token) {
+        const headers = {
+          Authorization: token,
+          userType: "Admin",
+        };
+
+        try {
+          const response = await axios.get(`${adminBaseUrl}/deleteduser`, {
+            headers,
+          });
+          if (response.data.status) {
+            setUsers(response.data.data);
+            console.log("User data : ", response.data.data);
+          } else {
+            console.log("Error: ", response.data.error);
+          }
+        } catch (err) {
+          console.log("Error fetching deleted users", err);
+        }
+      } else {
+        console.log("No token found in local storage");
+      }
+    };
+
+    fetchUsers();
+  }, []);
 
   return (
-    <div className="delete-user-container">
-      {showDeletePopup ? (
-        <DeletePopup setShowDeletePopup={setShowDeletePopup} clear={clear} />
-      ) : (
-        <></>
-      )}
-      <p>Deleted User</p>
-      <form className="delete-user-form" onSubmit={handleSubmit}>
-        <div>
-          <label>First name</label>
-          <input
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-          {errors.firstName && (
-            <span className="delete-error">{errors.firstName}</span>
-          )}
+    <div className="delete-user-list">
+      <p className="delete-user-title">Deleted Users</p>
+      <div className="delete-user-table-list">
+        <div className="delete-user-table-list-format">
+          <b>SI/No.</b>
+          <b>First name</b>
+          <b>Last name</b>
+          <b>Image</b>
+          <b>Email</b>
         </div>
-        <div>
-          <label>Last name</label>
-          <input
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-          {errors.lastName && (
-            <span className="delete-error">{errors.lastName}</span>
-          )}
-        </div>
-        <div>
-          <label>Email</label>
-          <input value={email} onChange={(e) => setEmail(e.target.value)} />
-          {errors.email && <span className="delete-error">{errors.email}</span>}
-        </div>
-        <button type="submit">Submit</button>
-      </form>
+        {users.length == 0 ? (
+          <div className="no-data-found">No data found</div>
+        ) : (
+          <></>
+        )}
+        {users.map((user, index) => {
+          return (
+            <div className="delete-user-table-list-format" key={user._id}>
+              <p>{index + 1}</p>
+              <p>{user.firstName}</p>
+              <p>{user.lastName || ""}</p>
+              <img
+                src={user.profileimage}
+                alt={`${user.firstName}'s profile`}
+              />
+              <p>{user.email}</p>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

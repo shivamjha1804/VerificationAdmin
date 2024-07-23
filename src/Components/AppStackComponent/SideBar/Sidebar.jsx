@@ -100,7 +100,7 @@ const Sidebar = () => {
                 src={isActive ? deleteUserActive : deleteUser}
                 alt="Delete User Icon"
               />
-              <p>Deleted User</p>
+              <p>Deleted Users</p>
             </>
           )}
         </NavLink>

@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./AllActiveUser.css";
 import axios from "axios";
 import { adminBaseUrl } from "../../../Utils/Apis";
 import deleteUserIcon from "../../../assets/Icons/delete.png";
 import { toast } from "react-toastify";
 import DeleteAUserPop from "../../../Components/AppStackComponent/DeleteAUserPop/DeleteAUserPop";
+import { StoreContext } from "../../../Context/StoreContex";
 
 const AllActiveUser = () => {
+  const { setUsersData } = useContext(StoreContext);
   const [users, setUsers] = useState([]);
   const [deleteUser, setDeleteUser] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
@@ -32,6 +34,7 @@ const AllActiveUser = () => {
           });
           if (response.data.status) {
             setUsers(response.data.data);
+            setUsersData(response.data.data);
           } else {
             console.log("Error: ", response.data.error);
           }
@@ -97,20 +100,28 @@ const AllActiveUser = () => {
           <b>Email</b>
           <b>Delete</b>
         </div>
+        {users.length == 0 ? (
+          <div className="no-data-found">No data found</div>
+        ) : (
+          <></>
+        )}
         {users.map((user, index) => {
           return (
             <div className="current-user-table-list-format" key={user._id}>
               <p>{index + 1}</p>
               <p>{user.firstName}</p>
               <p>{user.lastName}</p>
-              <img src={user.image} />
+              <img
+                src={user.profileimage}
+                alt={`${user.firstName}'s profile`}
+              />
               <p>{user.email}</p>
               <img
                 onClick={() => {
                   setDeleteUser(true);
                   setSelectedUserId(user._id);
                 }}
-                className="delete-user-icon"
+                id="delete-user-icon"
                 src={deleteUserIcon}
                 alt="Delete User"
               />

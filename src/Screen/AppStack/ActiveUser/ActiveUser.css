@@ -20,8 +20,8 @@
 }
 
 .active-user-table-list-format img {
-  width: 50px;
-  margin-left: 25px;
+  width: 35px;
+  height: 35px;
 }
 
 @media (max-width: 600px) {

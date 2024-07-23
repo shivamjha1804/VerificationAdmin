@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./AllUser.css";
 import axios from "axios";
 import { adminBaseUrl } from "../../../Utils/Apis";
+import { StoreContext } from "../../../Context/StoreContex";
 
 const AllUser = () => {
   const [users, setUsers] = useState([]);
+  const { fetchActiveUsersData, setAllUsersData } = useContext(StoreContext);
 
   useEffect(() => {
+    fetchActiveUsersData();
     const getToken = () => {
       const token = localStorage.getItem("token");
       return token;
@@ -27,6 +30,7 @@ const AllUser = () => {
           });
           if (response.data.status) {
             setUsers(response.data.data);
+            setAllUsersData(response.data.data);
           } else {
             console.log("Error: ", response.data.error);
           }
@@ -52,13 +56,21 @@ const AllUser = () => {
           <b>Image</b>
           <b>Email</b>
         </div>
+        {users.length == 0 ? (
+          <div className="no-data-found">No data found</div>
+        ) : (
+          <></>
+        )}
         {users.map((user, index) => {
           return (
             <div className="all-user-table-list-format" key={user._id}>
               <p>{index + 1}</p>
               <p>{user.firstName}</p>
               <p>{user.lastName || ""}</p>
-              <img src={user.image} />
+              <img
+                src={user.profileimage}
+                alt={`${user.firstName}'s profile`}
+              />
               <p>{user.email}</p>
             </div>
           );

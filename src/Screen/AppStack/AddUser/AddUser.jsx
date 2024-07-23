@@ -1,17 +1,23 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./AddUser.css";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { adminBaseUrl } from "../../../Utils/Apis";
+import { StoreContext } from "../../../Context/StoreContex";
 
 const AddUser = () => {
+  const { usersData, fetchActiveUsersData } = useContext(StoreContext);
+  useEffect(() => {
+    fetchActiveUsersData();
+  }, []);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
-    image: null,
+    faceId: "",
+    profileimage: "",
   });
   const [errors, setErrors] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
@@ -19,40 +25,56 @@ const AddUser = () => {
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      // Display the selected image before upload
       const reader = new FileReader();
       reader.onloadend = () => {
         setSelectedImage(reader.result);
       };
       reader.readAsDataURL(file);
 
-      // Prepare the file for upload
-      const formData = new FormData();
-      formData.append("image", file);
+      const uploadFormData = new FormData();
+      uploadFormData.append("image", file);
+
+      const token = localStorage.getItem("token");
 
       try {
-        // Upload the file to the server
         const response = await axios.post(
           `${adminBaseUrl}/upload-face-image`,
-          formData,
+          uploadFormData,
           {
             headers: {
-              "Content-Type": "multipart/form-data",
+              userType: "Admin",
+              Authorization: token,
             },
           }
         );
 
-        if (response.status) {
+        if (response.status && response.data.data.faceId) {
           toast.success("Image uploaded successfully");
-          if (response.data.faceId) {
-            const { imageUrl } = response.data;
+          setFormData((prevData) => ({
+            ...prevData,
+            faceId: response.data.data.faceId,
+          }));
+
+          const uploadProfileResponse = await axios.post(
+            `${adminBaseUrl}/upload-profile-image`,
+            uploadFormData,
+            {
+              headers: {
+                userType: "Admin",
+                Authorization: token,
+              },
+            }
+          );
+
+          if (uploadProfileResponse.data.data) {
+            toast.success("Profile image uploaded successfully");
             setFormData((prevData) => ({
               ...prevData,
-              faceId: response.data.faceId,
+              profileimage: uploadProfileResponse.data.data.path,
             }));
-            const uploadImage = await axios.post(`${adminBaseUrl}/upload-profile-image`)
-            
           }
+        } else {
+          toast.error("User face is not clear, Try another Image!");
         }
       } catch (error) {
         console.error("Error uploading image:", error);
@@ -60,12 +82,6 @@ const AddUser = () => {
       }
     }
   };
-
-  // const { imageUrl } = response.data;
-  //         setFormData((prevData) => ({
-  //           ...prevData,
-  //           path: response.data.path,
-  //         }));
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -85,31 +101,61 @@ const AddUser = () => {
       newErrors.confirmPassword = "Confirm Password is required";
     if (formData.password !== formData.confirmPassword)
       newErrors.confirmPassword = "Passwords do not match";
-    if (!formData.image) newErrors.image = "Image is required";
+    if (!formData.profileimage) newErrors.profileimage = "Image is required";
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
+
+    // Debug logs for usersData
+    console.log("usersData: ", usersData);
+
+    // Check if email already exists
+    const emailExists = usersData.some((user) => user.email === formData.email);
+    if (emailExists) {
+      validationErrors.email = "Email already exists";
+    }
+
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
       setErrors({});
       const submitData = { ...formData };
-      delete submitData.confirmPassword;
-      console.log(submitData);
-      // Reset form
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        image: null,
-      });
-      setSelectedImage(null);
-      toast.success("User added successfully");
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.post(
+          `${adminBaseUrl}/create-user`,
+          submitData,
+          {
+            headers: {
+              Authorization: token,
+              userType: "Admin",
+            },
+          }
+        );
+
+        if (response.data.status) {
+          toast.success("User added successfully");
+          setFormData({
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+            faceId: "",
+            profileimage: "",
+          });
+          setSelectedImage(null);
+        } else {
+          toast.error("Error adding user");
+          console.log("Error: ", response.data.error);
+        }
+      } catch (error) {
+        console.error("Error adding user:", error);
+        toast.error("Error adding user");
+      }
     }
   };
 
@@ -194,7 +240,7 @@ const AddUser = () => {
             />
           </div>
         )}
-        <button type="submit">Submit</button>
+        <button type="submit">Add User</button>
       </form>
     </div>
   );
