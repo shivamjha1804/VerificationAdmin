@@ -89,8 +89,8 @@ const ActiveUser = () => {
                 alt={`${item.firstName}'s profile`}
               />{" "}
               <p>{item.email}</p>
-              <p>{item.loginlocationName}</p>
-              <p>{formateDateAndTime(item.logintime)}</p>
+              <p>{item.latestLoginLocationName}</p>
+              <p>{formateDateAndTime(item.latestLoginTime)}</p>
             </div>
           );
         })}

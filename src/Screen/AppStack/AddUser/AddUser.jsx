@@ -109,10 +109,6 @@ const AddUser = () => {
     e.preventDefault();
     const validationErrors = validate();
 
-    // Debug logs for usersData
-    console.log("usersData: ", usersData);
-
-    // Check if email already exists
     const emailExists = usersData.some((user) => user.email === formData.email);
     if (emailExists) {
       validationErrors.email = "Email already exists";

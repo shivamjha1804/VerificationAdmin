@@ -28,7 +28,6 @@ const DeleteUser = () => {
           });
           if (response.data.status) {
             setUsers(response.data.data);
-            console.log("User data : ", response.data.data);
           } else {
             console.log("Error: ", response.data.error);
           }

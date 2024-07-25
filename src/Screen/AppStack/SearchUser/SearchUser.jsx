@@ -263,8 +263,15 @@ const SearchUser = () => {
                   alt={`${item.firstName}'s profile`}
                 />
                 <p>{item.email}</p>
-                <p>{item.loginInfo[0]?.loginlocationName || "N/A"}</p>
-                <p>{formatDateTime(item.loginInfo[0]?.logintime)}</p>
+                <p>
+                  {item.loginInfo[0]
+                    ?.loginlocationName || "N/A"}
+                </p>
+                <p>
+                  {formatDateTime(
+                    item.loginInfo[0]?.logintime
+                  )}
+                </p>
                 <img
                   id="search-user-list-user-view"
                   src={userView}

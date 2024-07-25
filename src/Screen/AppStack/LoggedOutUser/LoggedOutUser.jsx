@@ -89,8 +89,8 @@ const LoggedOutUser = () => {
                 alt={`${item.firstName}'s profile`}
               />{" "}
               <p>{item.email}</p>
-              <p>{item.logoutlocationName || "Not Provided"}</p>
-              <p>{formateDateAndTime(item.logOutTime)}</p>
+              <p>{item.latestLogoutLocationName}</p>
+              <p>{formateDateAndTime(item.latestLogoutTime)}</p>
             </div>
           );
         })}

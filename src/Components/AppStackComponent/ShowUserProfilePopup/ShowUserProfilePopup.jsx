@@ -10,6 +10,20 @@ const ShowUserProfilePopup = ({ setShowUserProfile, specificUserData }) => {
     return date.toLocaleString();
   };
 
+  const mergeLoginsAndLogouts = (logins, logouts) => {
+    const mergedLogs = [];
+    const maxLength = Math.max(logins.length, logouts.length);
+    for (let i = 0; i < maxLength; i++) {
+      if (i < logins.length) {
+        mergedLogs.push({ type: "login", data: logins[i] });
+      }
+      if (i < logouts.length) {
+        mergedLogs.push({ type: "logout", data: logouts[i] });
+      }
+    }
+    return mergedLogs;
+  };
+
   return (
     <div className="show-user-profile-popup-screen">
       <div
@@ -50,46 +64,48 @@ const ShowUserProfilePopup = ({ setShowUserProfile, specificUserData }) => {
             <div className="show-user-profile-popup-log-card-header">
               <h3>Log</h3>
             </div>
-            <div className="show-user-profile-popup-log-card-body">
-              {specificUserData.loginLogoutInfoByDate &&
+            <div className="show-user-profile-popup-log-card-body scrollable">
+              {specificUserData.loginLogoutInfoByDate ? (
                 specificUserData.loginLogoutInfoByDate.map((log, index) => (
                   <div
                     key={index}
                     className="show-user-profile-popup-log-card-body-item"
                   >
-                    <div className="log-item">
-                      <div className="log-item-date">
-                        <h4>Date:</h4>
-                        <h5>{log.date}</h5>
-                      </div>
-                      {log.logins.map((login, idx) => (
-                        <div key={idx} className="log-item-detail">
-                          <div className="log-item-time">
-                            <h4>Login Time:</h4>
-                            <h5>{formatDateTime(login.logintime)}</h5>
-                          </div>
-                          <div className="log-item-location">
-                            <h4>Location:</h4>
-                            <h5>{login.loginlocationName}</h5>
-                          </div>
-                        </div>
-                      ))}
-                      {log.logouts.map((logout, idx) => (
-                        <div key={idx} className="log-item-detail">
-                          <div className="log-item-time">
-                            <h4>Logout Time:</h4>
-                            <h5>{formatDateTime(logout.logOutTime)}</h5>
-                          </div>
-                          <div className="log-item-location">
-                            <h4>Location:</h4>
-                            <h5>{logout.logoutlocationName}</h5>
-                          </div>
-                        </div>
-                      ))}
+                    <div className="log-item-date">
+                      <h4>Date:</h4>
+                      <h5>{log.date}</h5>
                     </div>
+                    {mergeLoginsAndLogouts(log.logins, log.logouts).map(
+                      (entry, idx) => (
+                        <div key={idx} className="log-item-detail">
+                          <div className="log-item-time">
+                            <h4>
+                              {entry.type === "login"
+                                ? "Login Time:"
+                                : "Logout Time:"}
+                            </h4>
+                            <h5>
+                              {formatDateTime(
+                                entry.type === "login"
+                                  ? entry.data.logintime
+                                  : entry.data.logOutTime
+                              )}
+                            </h5>
+                          </div>
+                          <div className="log-item-location">
+                            <h4>Location:</h4>
+                            <h5>
+                              {entry.type === "login"
+                                ? entry.data.loginlocationName
+                                : entry.data.logoutlocationName}
+                            </h5>
+                          </div>
+                        </div>
+                      )
+                    )}
                   </div>
-                ))}
-              {!specificUserData.loginLogoutInfoByDate && (
+                ))
+              ) : (
                 <p>No log data available.</p>
               )}
             </div>
